@@ -2,11 +2,18 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.5.0",
+    "cpx": "^1.5.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@types/puppeteer": "4.0.2",
     "express": "^4.19.2",
     "puppeteer": "^17.1.0"
+  },
+  "scripts": {
+    "build": "tsc && yarn cpx",
+    "cpx": "cpx \"src/views/**/*\" dist/views",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts"
   }
 }

@@ -6,7 +6,7 @@ const app = express();
 
 // Serve the index.html file
 app.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
 // Screenshot endpoint
@@ -32,7 +32,7 @@ app.get('/screenshot', async (req: Request, res: Response) => {
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'views')));
 
 // Start the server
 app.listen(3000, () => {
