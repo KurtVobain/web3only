@@ -1,3 +1,5 @@
+import S3Provider from './services/s3Service';
+
 import express, { Request, Response } from 'express';
 import puppeteer from 'puppeteer';
 import path from 'path';
@@ -37,4 +39,6 @@ app.use(express.static(path.join(__dirname, 'views')));
 // Start the server
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
+    const s3Provider = new S3Provider()
+    s3Provider.listBuckets()
 });
