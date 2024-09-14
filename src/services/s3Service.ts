@@ -3,6 +3,8 @@ import {
     S3ClientConfig,
     ListBucketsCommand,
     GetObjectCommand,
+    PutObjectCommand,
+    PutObjectOutput,
 } from "@aws-sdk/client-s3"
 import { Readable } from "stream"
 import * as dotenv from "dotenv"
@@ -40,7 +42,7 @@ class S3Provider {
         return new S3Client(s3ClientConfig)
     }
 
-    async getFileFromBucket(
+    async getImageFromBucket(
         bucketName: string,
         fileName: string
     ): Promise<Buffer | null> {
@@ -69,6 +71,31 @@ class S3Provider {
         } else {
             // TODO: Add 'Unexpected response body type' log
             return null
+        }
+    }
+
+    async uploadImageToBucket(
+        bucketName: string,
+        imageName: string,
+        image: Buffer
+    ): Promise<PutObjectOutput> {
+        if (!bucketName || !imageName || !image) {
+            throw new Error("Invalid input parameters")
+        }
+
+        const command = new PutObjectCommand({
+            Bucket: bucketName,
+            Key: imageName,
+            Body: image,
+            ContentType: "image/jpeg",
+        })
+
+        try {
+            const response = await this.s3Client.send(command)
+            return response
+        } catch (err) {
+            console.error("Error uploading image:", err)
+            throw err
         }
     }
 
